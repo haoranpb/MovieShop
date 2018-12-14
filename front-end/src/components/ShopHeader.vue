@@ -1,6 +1,7 @@
 <template>
   <div class="shop-header">
     <h1>Shop Movie</h1>
+    <el-button type="primary" round size="small">购物车</el-button>
     <el-dropdown @command="handleCommand" trigger="click">
       <span class="el-dropdown-link">
         全部分类<i class="el-icon-arrow-down el-icon--right"></i>
@@ -44,6 +45,11 @@ h1{
   float: right;
   font-size: 1em;
   line-height: 60px;
+}
+.el-button{
+  float: right;
+  margin-top: 12px;
+  margin-left: 50px;
 }
 </style>
 

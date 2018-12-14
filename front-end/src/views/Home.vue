@@ -1,6 +1,6 @@
 <template>
   <div class="multi-pic">
-    <el-carousel arrow="always" height="700px">
+    <el-carousel arrow="always" height="750px">
       <el-carousel-item :key="action">
         <img src='@/assets/action.jpg' alt="sorry" />
       </el-carousel-item>
@@ -13,3 +13,4 @@
     </el-carousel>
   </div>
 </template>
+
