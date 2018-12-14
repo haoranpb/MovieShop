@@ -1,31 +1,40 @@
 <template>
   <div class="shop-header">
     <h1>Shop Movie</h1>
-    <el-button type="primary" round size="small">购物车</el-button>
-    <el-dropdown @command="handleCommand" trigger="click">
+    <router-link to="/cart">
+      <el-button type="primary" round size="small">购物车</el-button>
+    </router-link>
+    <el-dropdown @leger="click">
       <span class="el-dropdown-link">
         全部分类<i class="el-icon-arrow-down el-icon--right"></i>
       </span>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item command="fiction">黄金糕</el-dropdown-item>
-        <el-dropdown-item command="action">狮子头</el-dropdown-item>
-        <el-dropdown-item command="war">螺蛳粉</el-dropdown-item>
-        <el-dropdown-item command="comedy">双皮奶</el-dropdown-item>
-        <el-dropdown-item command="e">蚵仔煎</el-dropdown-item>
+        <router-link to="/">
+          <el-dropdown-item>all</el-dropdown-item>
+        </router-link>
+        <router-link to="/action">
+          <el-dropdown-item>Action</el-dropdown-item>
+        </router-link>
+        <router-link to="/comedy">
+          <el-dropdown-item>Comedy</el-dropdown-item>
+        </router-link>
+        <router-link to="/diaster">
+          <el-dropdown-item>Diaster</el-dropdown-item>
+        </router-link>
+        <router-link to="/documentary">
+        <el-dropdown-item>Documentary</el-dropdown-item>
+        </router-link>
+        <router-link to="/fiction">
+          <el-dropdown-item>Fiction</el-dropdown-item>
+        </router-link>
+        <router-link to="/war">
+          <el-dropdown-item >War</el-dropdown-item>
+        </router-link>
       </el-dropdown-menu>
     </el-dropdown>
   </div>
 </template>
 
-<script>
-  export default {
-    methods: {
-      handleCommand(command) {
-        this.$message('click on item ' + command);
-      }
-    }
-  }
-</script>
 
 <style scoped>
 h1{

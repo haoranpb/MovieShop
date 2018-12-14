@@ -25,5 +25,7 @@ export default {
 
 
 <style scoped>
-
+.search{
+  margin: 40px;
+}
 </style>

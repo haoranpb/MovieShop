@@ -1,7 +1,7 @@
 <template>
   <div id="cart">
     <div class="image">
-      <img src="@/assets/fiction.jpeg" />
+      <img src="@/assets/movie.jpg" />
     </div>
     <div class="cart-main">
 
@@ -16,13 +16,16 @@ export default {
 </script>
 
 <style scoped>
+img{
+  height: 100%;
+  width: 100%;
+}
 .image{
   height: 300px;
-
 }
 .cart-main{
   padding-top: 300px;
   background-color: grey;
-  height: 300px;
+  height: 320px;
 }
 </style>
