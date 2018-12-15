@@ -3,7 +3,7 @@
     <div class="image">
       <img src="@/assets/war-small.png" />
     </div>
-  <search genre="war"/>
+  <search genre="War"/>
   </div>
 </template>
 

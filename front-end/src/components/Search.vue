@@ -2,38 +2,32 @@
   <div>
     <div class="search">
       <el-form :inline="true" :model="form" @submit.native.prevent>
-        <el-form-item label="请输入电影名称">
-          <el-input v-model="form.name" placeholder="对名称进行正则匹配"></el-input>
+        <el-form-item label="电影名称">
+          <el-input v-model="form.name" placeholder="正则匹配名称"></el-input>
         </el-form-item>
-        <el-form-item
-          label="请输入最低价格"
-          prop="low"
-          :rules="[
-          { type: 'number', message: '年龄必须为数字值'}
-          ]">
-          <el-input v-model.number="form.low" placeholder="请输入整数"></el-input>
+        <el-form-item label="最低价格" prop="low"
+          :rules="[{ type: 'number', message: '价格必须为数字值'}]">
+          <el-input v-model.number="form.low" placeholder="整数"></el-input>
         </el-form-item>
-        <el-form-item
-        label="请输入最高价格"
-        prop="high"
-        :rules="[
-        { type: 'number', message: '年龄必须为数字值'}
-        ]">
-          <el-input v-model.number="form.high" placeholder="请输入整数"></el-input>
+        <el-form-item label="最高价格" prop="high"
+        :rules="[{ type: 'number', message: '价格必须为数字值'}]">
+          <el-input v-model.number="form.high" placeholder="整数"></el-input>
         </el-form-item>
-        <el-form-item label="请选择年份">
-          <el-time-picker
-            v-model="form.year"
-            type="year"
-            placeholder="选择年">
-          </el-time-picker>
+        <el-form-item label="获取条数" prop="num"
+        :rules="[{ type: 'number', message: '条数必须为数字值'}]">
+          <el-input v-model.number="form.num" placeholder="LIMIT 10"></el-input>
+        </el-form-item>
+        <el-form-item label="年份">
+          <el-date-picker v-model="form.year" type="year" value-format="yyyy" placeholder="选择年">
+          </el-date-picker>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="search">查询</el-button>
         </el-form-item>
       </el-form>
     </div>
-
+    <el-tag type="warning">程序查询时间：{{ time }}S</el-tag>
+    <el-tag type="success">数据库返回条目数量：{{ number }}</el-tag>
     <div class="result">
       <el-table :data="movieData" stripe height="400" style="width: 100%">
         <el-table-column prop="id" label="ID" width="140" sortable="">
@@ -75,48 +69,48 @@ export default {
         name: '',
         low: '',
         high: '',
-        year: ''
+        year: '',
+        num: ''
       },
-      movieData: [{
-          id: '1123',
-          title: 'HP',
-          actor: 'ludanxer',
-          director: 'ludan',
-          genre: 'Action',
-          review: '20',
-          price: '1.99',
-          time: '2018'
-        },
-        {
-          id: '123',
-          title: 'HP',
-          actor: 'ludanxer',
-          director: 'ludan',
-          genre: 'Action',
-          review: '2',
-          price: '12.99',
-          time: '2017'
-        }]
+      movieData: [],
+      time: '0',
+      number: '0'
     }
   },
   methods: {
     search(){
-      let movie_name = this.form.name;
       let low_price = this.form.low;
       let high_price = this.form.high;
-      let time = this.year;
+      let num = this.form.num;
+      if(!low_price){ low_price='0' }
+      if(!high_price){ high_price='40' }
+      if(!num){ num='10' }
+      let obj = this;
+      this.$message('开始发送请求，请稍后！');
 
       axios.get('http://127.0.0.1:5000/search', {
         params: {
           genre: this.genre,
-          name: movie_name,
+          name: this.form.name,
           low: low_price,
           high: high_price,
-          year: time
+          year: this.form.year,
+          number: num
         }
       })
       .then(function (response) {
-        console.log(response); // 将获取的数据，解析到movieData中即可
+        obj.time = response.data.time;
+        obj.number = response.data.number;
+        obj.movieData = [];
+        obj.$message({
+          message: '恭喜你，成功了！',
+          type: 'success'
+        });
+        for(let key of Object.keys(response.data)){
+          if(key!='time'&&key!='number'){
+            obj.movieData.push(response.data[key]);
+          }
+        }
       })
       .catch(function (error) {
         alert(error);
@@ -131,11 +125,20 @@ export default {
 
 <style scoped>
 .search{
-  margin: 40px;
+  margin: 15px;
+  margin-bottom: 0;
+}
+.el-tag{
+  margin-left: 60px;
+  margin-right: 60px;
+  margin-bottom: 10px;
 }
 .result{
   margin-left: 80px;
   margin-right: 80px;
   display: block;
+}
+.el-input{
+  width: 140px;
 }
 </style>

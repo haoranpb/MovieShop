@@ -3,7 +3,7 @@
     <div class="image">
       <img src="@/assets/disaster-small.png" />
     </div>
-  <search genre="disaster"/>
+  <search genre="Disaster"/>
   </div>
 </template>
 
