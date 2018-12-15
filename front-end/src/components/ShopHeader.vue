@@ -1,25 +1,24 @@
 <template>
   <div class="shop-header">
-    <h1>Shop Movie</h1>
+    <router-link to="/">
+      <h1>Shop Movie</h1>
+    </router-link>
     <router-link to="/cart">
       <el-button type="primary" round size="small">购物车</el-button>
     </router-link>
-    <el-dropdown @leger="click">
+    <el-dropdown trigger="click">
       <span class="el-dropdown-link">
         全部分类<i class="el-icon-arrow-down el-icon--right"></i>
       </span>
       <el-dropdown-menu slot="dropdown">
-        <router-link to="/">
-          <el-dropdown-item>all</el-dropdown-item>
-        </router-link>
         <router-link to="/action">
           <el-dropdown-item>Action</el-dropdown-item>
         </router-link>
         <router-link to="/comedy">
           <el-dropdown-item>Comedy</el-dropdown-item>
         </router-link>
-        <router-link to="/diaster">
-          <el-dropdown-item>Diaster</el-dropdown-item>
+        <router-link to="/disaster">
+          <el-dropdown-item>Disaster</el-dropdown-item>
         </router-link>
         <router-link to="/documentary">
         <el-dropdown-item>Documentary</el-dropdown-item>

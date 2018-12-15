@@ -8,7 +8,7 @@
         <img src='@/assets/comedy.png' alt="comedy" />
       </el-carousel-item>
       <el-carousel-item :key="diaster">
-        <img src='@/assets/diaster.png' alt="diaster" />
+        <img src='@/assets/disaster.png' alt="disaster" />
       </el-carousel-item>
       <el-carousel-item :key="documentary">
         <img src='@/assets/documentary.png' alt="documentary" />

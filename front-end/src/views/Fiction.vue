@@ -3,27 +3,17 @@
     <div class="image">
       <img src="@/assets/fiction-small.png" />
     </div>
-  <search />
-  <result />
+  <search genre="fiction"/>
   </div>
 </template>
 
 <script>
-import Result from '@/components/Result.vue'
 import Search from '@/components/Search.vue'
 
 export default {
   components: {
-    Result,
     Search
-  },
-  data(){
-    return {
-      formInline:{
-        name: ''
-      }
-    }
-  }  
+  }
 }
 </script>
 

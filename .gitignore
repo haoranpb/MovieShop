@@ -112,3 +112,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+back-end/docker-hive/.DS_Store
