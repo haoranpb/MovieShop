@@ -1,9 +1,9 @@
 import random
 import redis
-import pandas as pd
 from pyhive import hive
 
 db = redis.StrictRedis(host='localhost', port=6379, db=0)
+cursor = hive.connect(host='localhost', port='10000').cursor()
 
 MONTH = {"January": 1, "February": 2, "March": 3, "April": 4, "May": 5, "June": 6, "July": 7, "August": 8,
          "September": 9, "October": 10, "November": 11, "December": 12}
@@ -20,7 +20,8 @@ def date_parser(date):
     year = sp[2]
     return year+"-"+month+"-"+day+"-T00:00:00Z"
 
-
+num = 0
+fail = 0
 for key in db.keys():
     real_key = key.decode()
     movie_id = real_key[-10:]
@@ -37,16 +38,17 @@ for key in db.keys():
     movie_id = movie["id".encode()].decode()
     actor = movie["actor".encode()].decode().strip('[]').split(',')[0].strip('\'')
     title = movie["title".encode()].decode()
-    review_number = movie["review".encode()].decode()
+    review_number = int(movie["review".encode()].decode())
     director = movie["director".encode()].decode().strip('[]').split(',')[0].strip('\'')
-    price = str(random.randint(0, 39) + random.choice([0.99, 0.00]))
-    print(movie_id)
-    print(actor)
-    print(director)
-    print(genre)
-    print(title)
-    print(review_number)
-    print(price)
-    print(utcdate)
-    print('\n\n\n')
-    break
+    price = float(random.randint(0, 39) + random.choice([0.99, 0.00]))
+
+    num += 1
+    try:
+        cursor.execute('INSERT INTO movies VALUES ("%s", "%s", "%s", "%s", "%s", %.2f, "%s", %d)' % (movie_id, title, actor, director, utcdate, price, genre, review_number))
+    except Exception:
+        fail += 1
+        print(movie_id, actor, director, genre, title, review_number, price, utcdate)
+        print('Failure Numer: ' + str(fail) + '\n\n')
+
+    if num%100 == 0:
+        print('Success Number: ' + str(num) + '\n\n')
