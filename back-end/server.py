@@ -2,12 +2,15 @@
     Micro Server For Movie Shop
 """
 import json
-from flask import request
-from flask import Flask
-from pyhive import hive
+from pymongo import MongoClient
 import time
+from flask import request, Flask
+from pyhive import hive
 
 cursor = hive.connect(host='localhost', port='10000').cursor()
+client = MongoClient()
+db = client['movie']
+cart = db['cart']
 
 app = Flask(__name__)
 
@@ -51,3 +54,34 @@ def search():
     print(genre, low_price, high_price, title, year, number)
     result = search_movie(genre, low_price, high_price, title, year, start_time, number)
     return result
+
+@app.route('/addcart', methods=['GET', 'POST'])
+def add_cart():
+    document = {
+        'id': request.args.get('id'),
+        'title': request.args.get('title'),
+        'actor': request.args.get('actor'),
+        'director': request.args.get('director'),
+        'time': request.args.get('time'),
+        'price': float(request.args.get('price')),
+        'genre': request.args.get('genre'),
+        'review': int(request.args.get('review'))
+    }
+    cart.insert_one(document)
+    return '200'
+
+@app.route('/deletecart', methods=['GET', 'POST'])
+def delete_cart():
+    movie_id = request.args.get('id')
+    cart.delete_one({'id': movie_id})
+    return '200'
+
+@app.route('/getcart', methods=['GET', 'POST'])
+def get_cart():
+    i = 0
+    json_body = {}
+    for item in cart.find():
+        json_body[i] = item
+        json_body[i].pop('_id')
+        i += 1
+    return json.dumps(json_body, indent=2)

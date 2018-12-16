@@ -1,6 +1,8 @@
-from pyhive import hive
+import sqlite3
 
-cursor = hive.connect(host='localhost', port='10000').cursor()
+conn = sqlite3.connect('movieshop.db')
+cursor = conn.cursor()
 
-cursor.execute('select * from movies')
+cursor.execute('select * from cart')
 print(cursor.fetchall())
+cursor.close()

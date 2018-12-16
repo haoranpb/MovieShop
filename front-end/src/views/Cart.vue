@@ -35,7 +35,7 @@
           </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button @click.native.prevent="deleteRow(scope.$index, cartData)" type="text" size="medium">
+              <el-button @click.native.prevent="deleteRow(scope.row, scope.$index, cartData)" type="text" size="medium">
                 移除购物车
               </el-button>
             </template>
@@ -46,41 +46,72 @@
         <router-link to="/pay">
           <el-button class="pay" type="primary">立即付款</el-button>
         </router-link>
+        <el-button class="refresh" type="primary" @click="refresh()">刷新页面</el-button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data(){
     return {
-      cartData: [{
-        id: 'C3',
-        title: 'HP',
-        actor: 'ludanxer',
-        director: 'ludan',
-        genre: 'Action',
-        review: '2',
-        price: '12.99',
-        time: '2017'
-      },
-      {
-        id: 'B3',
-        title: 'HP',
-        actor: 'ludanxer',
-        director: 'ludan',
-        genre: 'Action',
-        review: '2',
-        price: '12.99',
-        time: '2017'
-      }]
+      cartData: []
     }
   },
   methods: {
-    deleteRow(index, rows) {
-      rows.splice(index, 1); // 还需要从数据库中删除
+    deleteRow(row, index, rows) {
+      let obj = this;
+      this.$message('正在删除，请稍后！');
+
+      axios.get('http://127.0.0.1:5000/deletecart', {
+        params: { id: row.id }
+      })
+      .then(function () {
+        obj.$message({
+          message: '成功删除！',
+          type: 'success'
+        });
+        rows.splice(index, 1);
+      })
+      .catch(function () {
+        obj.$message.error('糟糕，哪里出了点问题！');
+      });
+    },
+    refresh(){
+      let obj = this;
+      this.$message('正在刷新，请稍后！');
+
+      axios.get('http://127.0.0.1:5000/getcart')
+      .then(function (response) {
+        obj.$message({
+            message: '成功刷新！',
+            type: 'success'
+          });
+        obj.cartData = []
+        for(let key of Object.keys(response.data)){
+          obj.cartData.push(response.data[key]);
+        }
+      })
+      .catch(function () {
+        obj.$message.error('糟糕，哪里出了点问题！');
+      });
     }
+  },
+  mounted: function(){
+    let obj = this;
+    axios.get('http://127.0.0.1:5000/getcart')
+    .then(function (response) {
+      obj.cartData = []
+      for(let key of Object.keys(response.data)){
+        obj.cartData.push(response.data[key]);
+      }
+    })
+    .catch(function () {
+      obj.$message.error('糟糕，哪里出了点问题！');
+    });
   }
 }
 </script>
@@ -98,10 +129,13 @@ img{
   margin-left: 80px;
   margin-right: 200px;
 }
-.pay{
+.pay, .refresh{
   margin-top: 10px;
   margin-right: 380px;
   float: right;
+}
+.refresh{
+  margin-right: 80px;
 }
 .demo-table-expand {
   font-size: 0;

@@ -112,12 +112,38 @@ export default {
           }
         }
       })
-      .catch(function (error) {
-        alert(error);
+      .catch(function () {
+        obj.$message.error('糟糕，哪里出了点问题！');
       });
     },
     addCart(row){
+      let obj = this;
+      this.$message('正在加购，请稍后！');
       console.log(row);
+
+      axios.get('http://127.0.0.1:5000/addcart', {
+        params: { 
+          id: row.id,
+          actor: row.actor,
+          director: row.director,
+          price: row.price,
+          title: row.title,
+          time: row.time,
+          review: row.review,
+          genre: row.genre
+        }
+      })
+      .then(function (response) {
+        if(response.status==200){
+          obj.$message({
+            message: '成功加购！',
+            type: 'success'
+          });
+        }
+      })
+      .catch(function () {
+        obj.$message.error('糟糕，哪里出了点问题！');
+      });
     }
   }
 }
