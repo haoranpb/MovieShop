@@ -1,7 +1,7 @@
 <template>
   <div class="documentary">
     <div class="image">
-      <img src="@/assets/documentary-small.png" />
+      <img src="@/assets/documentary-small.jpg" />
     </div>
   <search genre="Documentary"/>
   </div>

@@ -1,7 +1,7 @@
 <template>
   <div class="disaster">
     <div class="image">
-      <img src="@/assets/disaster-small.png" />
+      <img src="@/assets/disaster-small.jpg" />
     </div>
   <search genre="Disaster"/>
   </div>

@@ -9,6 +9,7 @@ import Fiction from './views/Fiction.vue'
 import Documentary from './views/Documentary.vue'
 import Disaster from './views/Disaster.vue'
 import Comedy from './views/Comedy.vue'
+import Log from './views/Log.vue'
 
 Vue.use(Router)
 
@@ -17,7 +18,7 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
+      path: '/home',
       name: 'home',
       component: Home
     },
@@ -60,6 +61,11 @@ export default new Router({
       path: '/comedy',
       name: 'comedy',
       component: Comedy
+    },
+    {
+      path: '/',
+      name: 'log',
+      component: Log
     }
   ]
 })

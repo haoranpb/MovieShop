@@ -1,7 +1,7 @@
 <template>
   <div class="action">
     <div class="image">
-      <img src="@/assets/action-small.png" />
+      <img src="@/assets/action-small.jpg" />
     </div>
   <search genre="Action"/>
   </div>

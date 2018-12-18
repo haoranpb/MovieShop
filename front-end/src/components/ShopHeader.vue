@@ -1,6 +1,6 @@
 <template>
   <div class="shop-header">
-    <router-link to="/">
+    <router-link to="/home">
       <h1>Shop Movie</h1>
     </router-link>
     <router-link to="/cart">

@@ -11,8 +11,31 @@ cursor = hive.connect(host='localhost', port='10000').cursor()
 client = MongoClient()
 db = client['movie']
 cart = db['cart']
+member = db['member']
 
 app = Flask(__name__)
+
+@app.route('/signup', methods=['POST'])
+def sign_up():
+    document = {
+        'usr': request.form['usr'],
+        'pwd': request.form['pwd']
+    }
+    member.insert_one(document)
+    return '200'
+
+@app.route('/signin', methods=['POST'])
+def sign_in():
+    result_filter = {
+        'usr': request.form['usr'],
+        'pwd': request.form['pwd']
+    }
+    result = member.find_one(result_filter)
+    if result:
+        return 'True'
+    else:
+        return 'False'
+
 
 def search_movie(genre, low, high, title, year, start, number):
     json_body = {}
