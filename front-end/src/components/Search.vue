@@ -119,7 +119,6 @@ export default {
     addCart(row){
       let obj = this;
       this.$message('正在加购，请稍后！');
-      console.log(row);
 
       axios.get('http://127.0.0.1:5000/addcart', {
         params: { 
